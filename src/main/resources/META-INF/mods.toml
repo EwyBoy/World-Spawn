@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[38,)"
+license="MIT"
+issueTrackerURL="https://github.com/EwyBoy/World-Spawn"
+credits=""
+authors="EwyBoy"
+
+[[mods]]
+modId="worldspawn"
+version="${file.jarVersion}"
+displayName="World Spawn"
+description="Customize where to spawn in the world of Minecraft"
+
+[[dependencies.worldspawn]]
+modId="forge"
+mandatory=true
+versionRange="[38,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.worldspawn]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.18, 1.19)"
+ordering="NONE"
+side="BOTH"
