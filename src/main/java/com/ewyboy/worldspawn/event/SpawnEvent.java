@@ -8,10 +8,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ServerLevelData;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber()
 public class SpawnEvent {
 
     private int getRandomArbitrary(int min, int max) {
@@ -23,7 +24,7 @@ public class SpawnEvent {
         ModLogger.info("Spawn Point found at :: " + new BlockPos(serverLevelData.getXSpawn(), serverLevelData.getYSpawn(), serverLevelData.getZSpawn()).toShortString());
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onWorldLoad(WorldEvent.CreateSpawnPosition event) {
         Level level = WorldUtility.getWorldIfInstanceOfAndNotRemote(event.getWorld());
         ModLogger.info("Finding spawn..");
