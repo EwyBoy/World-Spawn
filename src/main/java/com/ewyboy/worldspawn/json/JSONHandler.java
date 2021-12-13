@@ -1,8 +1,8 @@
 package com.ewyboy.worldspawn.json;
 
 import com.ewyboy.worldspawn.WorldSpawn;
-import com.ewyboy.worldspawn.json.objects.SpawnConfig;
 import com.ewyboy.worldspawn.json.objects.Spawn;
+import com.ewyboy.worldspawn.json.objects.SpawnConfig;
 import com.ewyboy.worldspawn.util.ModLogger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,7 +19,7 @@ public class JSONHandler {
     private static final Gson gson = new Gson();
     public static final File JSON_FILE = new File(FMLPaths.CONFIGDIR.get() + "/worldspawn/spawn.json");
 
-    public static SpawnConfig spawnConfig = new SpawnConfig(new Spawn(64, 86));
+    public static SpawnConfig spawnConfig = new SpawnConfig(new Spawn(400, 450));
 
     public static void setup() {
         createDirectory();
