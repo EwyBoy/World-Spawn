@@ -1,5 +1,6 @@
 package com.ewyboy.worldspawn.event;
 
+import com.ewyboy.worldspawn.json.JSONHandler;
 import com.ewyboy.worldspawn.util.ModLogger;
 import com.ewyboy.worldspawn.util.WorldUtility;
 import net.minecraft.core.BlockPos;
@@ -31,38 +32,49 @@ public class SpawnEvent {
         serverLevel.setDefaultSpawnPos(getSafeSpawn(serverLevel), 0.0f);
     }
 
+    public static int getRandomNumber(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
+    }
+
     public static BlockPos getSafeSpawn(ServerLevel level) {
+
         Random random = new Random(level.getSeed());
-        double d0 = -1.0D;
-        int xPos = 0;
-        int yPos = 420;
-        int zPos = 0;
+        BlockPos.MutableBlockPos blockPosMutable = new BlockPos.MutableBlockPos();
+
+        double f = -1.0D;
+
+        int xPos = getRandomNumber(-32, 32);
+        int yPos = getRandomNumber(JSONHandler.spawnConfig.getSpawnEntry().getMin_y(), JSONHandler.spawnConfig.getSpawnEntry().getMax_y());
+        int zPos = getRandomNumber(-32, 32);
+
+        ModLogger.info("Pos X :: " + xPos);
+        ModLogger.info("Pos Y :: " + yPos);
+        ModLogger.info("Pos Z :: " + zPos);
+
         int xPosCopy = xPos;
         int yPosCopy = yPos;
         int zPosCopy = zPos;
-        int l1 = 0;
-        int i2 = random.nextInt(4);
-        BlockPos.MutableBlockPos blockPosMutable = new BlockPos.MutableBlockPos();
 
-        for (int j2 = xPos - 16; j2 <= xPos + 16; ++j2)
+        int modifer = 0;
+        int rand = random.nextInt(4);
+
+        for (int x = xPos - 32; x <= xPos + 32; ++x)
         {
-            double d1 = (double) j2 + 0.5D - xPos;
+            double xx = (double) x + 0.5D - xPos;
 
-            for (int l2 = zPos - 16; l2 <= zPos + 16; ++l2)
+            for (int z = zPos - 32; z <= zPos + 32; ++z)
             {
-                double d2 = (double) l2 + 0.5D - zPos;
+                double zz = (double) z + 0.5D - zPos;
 
-                label276:
-                for (int j3 = level.getMaxBuildHeight() - 1; j3 >= 0; --j3)
+                callBack:
+                for (int y = level.getMaxBuildHeight() - 1; y >= 0; --y)
                 {
-                    if (level.isEmptyBlock(blockPosMutable.set(j2, j3, l2)))
-                    {
-                        while (j3 > 0 && level.isEmptyBlock(blockPosMutable.set(j2, j3 - 1, l2)))
-                        {
-                            --j3;
+                    if (level.isEmptyBlock(blockPosMutable.set(x, y, z))) {
+                        while (y > 0 && level.isEmptyBlock(blockPosMutable.set(x, y - 1, z))) {
+                            --y;
                         }
 
-                        for (int k3 = i2; k3 < i2 + 4; ++k3)
+                        for (int k3 = rand; k3 < rand + 4; ++k3)
                         {
                             int l3 = k3 % 2;
                             int i4 = 1 - l3;
@@ -78,27 +90,27 @@ public class SpawnEvent {
                                 {
                                     for (int l4 = -1; l4 < 4; ++l4)
                                     {
-                                        int i5 = j2 + (k4 - 1) * l3 + j4 * i4;
-                                        int j5 = j3 + l4;
-                                        int k5 = l2 + (k4 - 1) * i4 - j4 * l3;
+                                        int i5 = x + (k4 - 1) * l3 + j4 * i4;
+                                        int j5 = y + l4;
+                                        int k5 = z + (k4 - 1) * i4 - j4 * l3;
                                         blockPosMutable.set(i5, j5, k5);
                                         if (l4 < 0 && !level.getBlockState(blockPosMutable).getMaterial().isSolid() || l4 >= 0 && !level.isEmptyBlock(blockPosMutable))
                                         {
-                                            continue label276;
+                                            continue callBack;
                                         }
                                     }
                                 }
                             }
 
-                            double d5 = (double) j3 + 0.5D - yPos;
-                            double d7 = d1 * d1 + d5 * d5 + d2 * d2;
-                            if (d0 < 0.0D || d7 < d0)
+                            double d5 = (double) y + 0.5D - yPos;
+                            double d7 = xx * xx + d5 * d5 + zz * zz;
+                            if (f < 0.0D || d7 < f)
                             {
-                                d0 = d7;
-                                xPosCopy = j2;
-                                yPosCopy = j3;
-                                zPosCopy = l2;
-                                l1 = k3 % 4;
+                                f = d7;
+                                xPosCopy = x;
+                                yPosCopy = y;
+                                zPosCopy = z;
+                                modifer = k3 % 4;
                             }
                         }
                     }
@@ -106,55 +118,55 @@ public class SpawnEvent {
             }
         }
 
-        if (d0 < 0.0D)
+        if (f < 0.0D)
         {
-            for (int l5 = xPos - 16; l5 <= xPos + 16; ++l5)
+            for (int x = xPos - 16; x <= xPos + 16; ++x)
             {
-                double d3 = (double) l5 + 0.5D - xPos;
+                double xx = (double) x + 0.5D - xPos;
 
-                for (int j6 = zPos - 16; j6 <= zPos + 16; ++j6)
+                for (int z = zPos - 16; z <= zPos + 16; ++z)
                 {
-                    double d4 = (double) j6 + 0.5D - zPos;
+                    double zz = (double) z + 0.5D - zPos;
 
-                    label214:
-                    for (int i7 = level.getMaxBuildHeight() - 1; i7 >= 0; --i7)
+                    callBack:
+                    for (int y = level.getMaxBuildHeight() - 1; y >= 0; --y)
                     {
-                        if (level.isEmptyBlock(blockPosMutable.set(l5, i7, j6)))
+                        if (level.isEmptyBlock(blockPosMutable.set(x, y, z)))
                         {
-                            while (i7 > 0 && level.isEmptyBlock(blockPosMutable.set(l5, i7 - 1, j6)))
+                            while (y > 0 && level.isEmptyBlock(blockPosMutable.set(x, y - 1, z)))
                             {
-                                --i7;
+                                --y;
                             }
 
-                            for (int l7 = i2; l7 < i2 + 2; ++l7)
+                            for (int rando = rand; rando < rand + 2; ++rando)
                             {
-                                int l8 = l7 % 2;
+                                int l8 = rando % 2;
                                 int k9 = 1 - l8;
 
                                 for (int i10 = 0; i10 < 4; ++i10)
                                 {
                                     for (int k10 = -1; k10 < 4; ++k10)
                                     {
-                                        int i11 = l5 + (i10 - 1) * l8;
-                                        int j11 = i7 + k10;
-                                        int k11 = j6 + (i10 - 1) * k9;
+                                        int i11 = x + (i10 - 1) * l8;
+                                        int j11 = y + k10;
+                                        int k11 = z + (i10 - 1) * k9;
                                         blockPosMutable.set(i11, j11, k11);
                                         if (k10 < 0 && !level.getBlockState(blockPosMutable).getMaterial().isSolid() || k10 >= 0 && !level.isEmptyBlock(blockPosMutable))
                                         {
-                                            continue label214;
+                                            continue callBack;
                                         }
                                     }
                                 }
 
-                                double d6 = (double) i7 + 0.5D - yPos;
-                                double d8 = d3 * d3 + d6 * d6 + d4 * d4;
-                                if (d0 < 0.0D || d8 < d0)
+                                double d6 = (double) y + 0.5D - yPos;
+                                double d8 = xx * xx + d6 * d6 + zz * zz;
+                                if (f < 0.0D || d8 < f)
                                 {
-                                    d0 = d8;
-                                    xPosCopy = l5;
-                                    yPosCopy = i7;
-                                    zPosCopy = j6;
-                                    l1 = l7 % 2;
+                                    f = d8;
+                                    xPosCopy = x;
+                                    yPosCopy = y;
+                                    zPosCopy = z;
+                                    modifer = rando % 2;
                                 }
                             }
                         }
@@ -166,15 +178,15 @@ public class SpawnEvent {
         int i6 = xPosCopy;
         int k2 = yPosCopy;
         int k6 = zPosCopy;
-        int l6 = l1 % 2;
+        int l6 = modifer % 2;
         int i3 = 1 - l6;
-        if (l1 % 4 >= 2)
+        if (modifer % 4 >= 2)
         {
             l6 = -l6;
             i3 = -i3;
         }
 
-        if (d0 < 0.0D)
+        if (f < 0.0D)
         {
             yPosCopy = Mth.clamp(yPosCopy, 70, level.getMaxBuildHeight() - 10);
             k2 = yPosCopy;
