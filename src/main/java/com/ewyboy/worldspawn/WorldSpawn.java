@@ -44,5 +44,4 @@ public class WorldSpawn {
         MinecraftForge.EVENT_BUS.register(new SpawnEvent());
     }
 
-
 }

@@ -9,7 +9,7 @@
           },
           "Name": "minecraft:spruce_sapling"
         },
-        "type": "minecraft:would_survive"
+        "type": "minecraft:true"
       },
       "type": "minecraft:block_predicate_filter"
     }

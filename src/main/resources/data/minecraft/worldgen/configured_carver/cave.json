@@ -1,5 +1,16 @@
 {
+  "type": "minecraft:cave",
   "config": {
+    "probability": 0.15,
+    "y": {
+      "type": "minecraft:uniform",
+      "min_inclusive": {
+        "above_bottom": 8
+      },
+      "max_inclusive": {
+        "below_top": 40
+      }
+    },
     "yScale": {
       "type": "minecraft:uniform",
       "value": {
@@ -9,40 +20,6 @@
     },
     "lava_level": {
       "above_bottom": 8
-    },
-    "debug_settings": {
-      "water_state": {
-        "Properties": {
-          "waterlogged": "false",
-          "lit": "false",
-          "candles": "1"
-        },
-        "Name": "minecraft:candle"
-      },
-      "lava_state": {
-        "Name": "minecraft:orange_stained_glass"
-      },
-      "barrier_state": {
-        "Name": "minecraft:glass"
-      },
-      "air_state": {
-        "Properties": {
-          "powered": "false",
-          "facing": "north",
-          "face": "wall"
-        },
-        "Name": "minecraft:crimson_button"
-      }
-    },
-    "probability": 0.15,
-    "y": {
-      "min_inclusive": {
-        "above_bottom": 8
-      },
-      "max_inclusive": {
-        "absolute": 180
-      },
-      "type": "minecraft:uniform"
     },
     "horizontal_radius_multiplier": {
       "type": "minecraft:uniform",
@@ -61,10 +38,9 @@
     "floor_level": {
       "type": "minecraft:uniform",
       "value": {
-        "min_inclusive": -1.0,
+        "min_inclusive": -1,
         "max_exclusive": -0.4
       }
     }
-  },
-  "type": "minecraft:cave"
+  }
 }

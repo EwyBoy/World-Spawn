@@ -1,8 +1,14 @@
 {
-  "feature": "minecraft:cave_vine",
+  "feature": "minecraft:test_tree",
   "placement": [
     {
-      "count": 188,
+      "count": {
+        "type": "minecraft:uniform",
+        "value": {
+          "min_inclusive": 1,
+          "max_inclusive": 2
+        }
+      },
       "type": "minecraft:count"
     },
     {
@@ -23,8 +29,7 @@
     {
       "direction_of_search": "up",
       "target_condition": {
-        "direction": "down",
-        "type": "minecraft:has_sturdy_face"
+        "type": "minecraft:solid"
       },
       "allowed_search_condition": {
         "blocks": [
