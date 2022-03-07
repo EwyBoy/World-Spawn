@@ -18,7 +18,7 @@ public class InfoHandler {
     private static void createInfoFile() {
         try {
             if (InfoHandler.INFO_FILE.createNewFile()) {
-                ModLogger.info("Creating Seed Drop information file: " + InfoHandler.INFO_FILE.getName());
+                ModLogger.info("Creating World Spawn information file: " + InfoHandler.INFO_FILE.getName());
                 FileWriter writer = new FileWriter(INFO_FILE);
                 writeInfoFile(writer);
             }
